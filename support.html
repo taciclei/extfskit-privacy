@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DiskBridge — Support / Assistance</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { max-width: 42rem; margin: 3rem auto; padding: 0 1.25rem;
+         font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  h1 { font-size: 1.6rem; margin-bottom: .25rem; }
+  h2 { font-size: 1.15rem; margin-top: 2.5rem; }
+  h3 { font-size: 1rem; margin-top: 1.6rem; margin-bottom: .2rem; }
+  .date { color: #888; margin-top: 0; }
+  ul, ol { padding-left: 1.2rem; }
+  hr { border: none; border-top: 1px solid #8883; margin: 3rem 0; }
+  code { background: #8881; padding: .1em .35em; border-radius: 3px; }
+  table { border-collapse: collapse; margin: .5rem 0; }
+  td, th { border: 1px solid #8884; padding: .3rem .6rem; text-align: left; }
+  nav { font-size: .95rem; }
+</style>
+</head>
+<body>
+<nav><a href="#fr">Français plus bas</a> · <a href="index.html">Privacy Policy / Confidentialité</a></nav>
+
+<h1>DiskBridge — Support</h1>
+<p class="date">Last updated: 25 September 2026</p>
+
+<h2>Contact</h2>
+<p>Write to <a href="mailto:taciclei@gmail.com">taciclei@gmail.com</a>.
+Please include your macOS version, the format of the disk (ext4, ext3, ext2,
+btrfs…), and what you expected versus what happened. English or French.</p>
+
+<h2>Getting started</h2>
+<ol>
+  <li>Install DiskBridge and open it once.</li>
+  <li>Open <strong>System Settings &gt; General &gt; Login Items &amp;
+  Extensions</strong>. In the Extensions section, choose <strong>By
+  Category</strong>, click the <strong>ⓘ</strong> button next to
+  <strong>File System Extensions</strong>, and turn on
+  <strong>DiskBridge — ext4, btrfs</strong> and <strong>TriFS-24</strong>.
+  (You can also choose <strong>By App</strong> &gt; DiskBridge.)</li>
+  <li>Connect your Linux disk, or double-click a disk image. macOS mounts the
+  volume by itself and it appears in the Finder.</li>
+</ol>
+<p>macOS installs third-party file system extensions turned off: nothing
+mounts until step 2 is done. This is needed only once.</p>
+
+<h2>What works</h2>
+<table>
+  <tr><th>Format</th><th>Access</th></tr>
+  <tr><td>ext4, ext3</td><td>read and write, when every feature of the volume is supported by the write engine; read-only otherwise</td></tr>
+  <tr><td>ext2</td><td>read-only (no journal)</td></tr>
+  <tr><td>btrfs</td><td>read-only</td></tr>
+  <tr><td>TriFS-24</td><td>supported</td></tr>
+</table>
+<p>Requires macOS 15.6 or later.</p>
+
+<h2>Frequently asked questions</h2>
+
+<h3>I connected my disk and nothing appears.</h3>
+<ul>
+  <li>Check that both extensions are turned on (Getting started, step 2).</li>
+  <li>The disk may use a format DiskBridge does not open: LVM, encrypted volumes
+  (LUKS, ext4 encryption), XFS, ZFS… The DiskBridge window lists every partition
+  and says which ones DiskBridge serves.</li>
+  <li>If the disk was unplugged from Linux without being unmounted, its journal
+  may need to be replayed. DiskBridge replays it when it can; when it cannot, the
+  volume is not mounted, as on Linux. Connect the disk to Linux, mount it and
+  unmount it cleanly, then try again.</li>
+</ul>
+
+<h3>Why is my volume read-only?</h3>
+<p>DiskBridge mounts a volume read-only, rather than write to it, when writing
+could damage it: an ext2 volume (no journal), a volume Linux marked as having
+errors, or a volume using a feature the write engine does not handle. btrfs is
+always read-only in this version. Your files stay readable and can be copied to
+your Mac. To clear an error mark, run <code>e2fsck</code> on the volume under
+Linux.</p>
+
+<h3>Can DiskBridge format, repair or partition a disk?</h3>
+<p>No. It does not format, repair or partition disks. Use Linux tools
+(<code>mkfs.ext4</code>, <code>e2fsck</code>, <code>parted</code>) for that.</p>
+
+<h3>How do I remove the disk safely?</h3>
+<p>Eject the volume in the Finder before unplugging it, as with any disk.
+Unplugging without ejecting can leave writes unfinished.</p>
+
+<h3>Does DiskBridge send my data anywhere?</h3>
+<p>No. Neither the app nor its extensions has network access. See the
+<a href="index.html">privacy policy</a>.</p>
+
+<h3>How do I stop using DiskBridge?</h3>
+<p>Turn the two extensions off in System Settings (Getting started, step 2),
+or delete the app: its extensions are removed with it.</p>
+
+<hr>
+
+<div id="fr" lang="fr">
+<h1>DiskBridge — Assistance</h1>
+<p class="date">Dernière mise à jour : 25 septembre 2026</p>
+
+<h2>Contact</h2>
+<p>Écrivez à <a href="mailto:taciclei@gmail.com">taciclei@gmail.com</a>.
+Indiquez votre version de macOS, le format du disque (ext4, ext3, ext2,
+btrfs…), et ce que vous attendiez par rapport à ce qui s’est passé. En français
+ou en anglais.</p>
+
+<h2>Premiers pas</h2>
+<ol>
+  <li>Installez DiskBridge et ouvrez-le une fois.</li>
+  <li>Ouvrez <strong>Réglages Système &gt; Général &gt; Ouverture et
+  extensions</strong>. Dans la section Extensions, choisissez <strong>Par
+  catégorie</strong>, cliquez sur le bouton <strong>ⓘ</strong> à côté de
+  <strong>Extensions du système de fichiers</strong>, et activez
+  <strong>DiskBridge — ext4, btrfs</strong> et <strong>TriFS-24</strong>.
+  (Ou bien : <strong>Par app</strong> &gt; DiskBridge.)</li>
+  <li>Branchez votre disque Linux, ou double-cliquez sur une image disque.
+  macOS monte le volume de lui-même, et il apparaît dans le Finder.</li>
+</ol>
+<p>macOS installe les extensions de système de fichiers tierces désactivées :
+rien ne se monte tant que l’étape 2 n’est pas faite. Elle ne se fait qu’une
+fois.</p>
+
+<h2>Ce qui fonctionne</h2>
+<table>
+  <tr><th>Format</th><th>Accès</th></tr>
+  <tr><td>ext4, ext3</td><td>lecture et écriture, si le moteur d’écriture gère toutes les fonctions du volume ; lecture seule sinon</td></tr>
+  <tr><td>ext2</td><td>lecture seule (pas de journal)</td></tr>
+  <tr><td>btrfs</td><td>lecture seule</td></tr>
+  <tr><td>TriFS-24</td><td>pris en charge</td></tr>
+</table>
+<p>Nécessite macOS 15.6 ou ultérieur.</p>
+
+<h2>Questions fréquentes</h2>
+
+<h3>J’ai branché mon disque et rien n’apparaît.</h3>
+<ul>
+  <li>Vérifiez que les deux extensions sont activées (Premiers pas, étape 2).</li>
+  <li>Le disque utilise peut-être un format que DiskBridge n’ouvre pas : LVM,
+  volumes chiffrés (LUKS, chiffrement ext4), XFS, ZFS… La fenêtre de DiskBridge
+  liste toutes les partitions et indique celles qu’il sert.</li>
+  <li>Si le disque a été débranché de Linux sans être démonté, son journal
+  doit peut-être être rejoué. DiskBridge le rejoue quand il le peut ; sinon, le
+  volume n’est pas monté, comme sous Linux. Branchez le disque sous Linux,
+  montez-le et démontez-le proprement, puis réessayez.</li>
+</ul>
+
+<h3>Pourquoi mon volume est-il en lecture seule ?</h3>
+<p>DiskBridge monte un volume en lecture seule, plutôt que d’y écrire, quand
+écrire pourrait l’abîmer : un volume ext2 (sans journal), un volume que Linux a
+marqué en erreur, ou un volume qui utilise une fonction que le moteur
+d’écriture ne gère pas. btrfs est toujours en lecture seule dans cette version.
+Vos fichiers restent lisibles et peuvent être copiés sur votre Mac. Pour
+effacer une marque d’erreur, lancez <code>e2fsck</code> sur le volume sous
+Linux.</p>
+
+<h3>DiskBridge peut-il formater, réparer ou partitionner un disque ?</h3>
+<p>Non. Il ne formate, ne répare et ne partitionne pas les disques. Utilisez
+pour cela les outils de Linux (<code>mkfs.ext4</code>, <code>e2fsck</code>,
+<code>parted</code>).</p>
+
+<h3>Comment retirer le disque sans risque ?</h3>
+<p>Éjectez le volume dans le Finder avant de le débrancher, comme pour tout
+disque. Débrancher sans éjecter peut laisser des écritures inachevées.</p>
+
+<h3>DiskBridge envoie-t-il mes données quelque part ?</h3>
+<p>Non. Ni l’application ni ses extensions n’ont accès au réseau. Voir la
+<a href="index.html">politique de confidentialité</a>.</p>
+
+<h3>Comment arrêter d’utiliser DiskBridge ?</h3>
+<p>Désactivez les deux extensions dans Réglages Système (Premiers pas,
+étape 2), ou supprimez l’application : ses extensions partent avec elle.</p>
+</div>
+</body>
+</html>
