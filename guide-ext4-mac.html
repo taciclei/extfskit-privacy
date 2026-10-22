@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Open an ext4 drive on macOS 15.6+ — TuxKit ext4 guide / Ouvrir un disque ext4 sous macOS 15.6+</title>
+<meta name="description" content="How to open, read and write an ext4 or ext3 drive formatted on Linux, in the Finder, on macOS 15.6 or later, with the free TuxKit app.">
+<style>
+  :root { color-scheme: light dark; }
+  body { max-width: 42rem; margin: 3rem auto; padding: 0 1.25rem;
+         font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  h1 { font-size: 1.6rem; margin-bottom: .25rem; }
+  h2 { font-size: 1.15rem; margin-top: 2.5rem; }
+  .date { color: #888; margin-top: 0; }
+  ul, ol { padding-left: 1.2rem; }
+  li { margin-bottom: .3rem; }
+  hr { border: none; border-top: 1px solid #8883; margin: 3rem 0; }
+  code { background: #8881; padding: .1em .35em; border-radius: 3px; }
+  table { border-collapse: collapse; margin: .5rem 0; }
+  td, th { border: 1px solid #8884; padding: .3rem .6rem; text-align: left; vertical-align: top; }
+  nav { font-size: .95rem; }
+  footer { margin-top: 3rem; color: #888; font-size: .85rem; }
+</style>
+</head>
+<body>
+<nav><a href="tuxkit.html">TuxKit</a> · <a href="#fr">Français plus bas</a> · <a href="support.html">Support</a></nav>
+
+<h1>Open an ext4 drive on macOS 15.6+</h1>
+<p class="date">Last updated: 22 October 2026</p>
+
+<p>macOS does not open ext4, the usual format of Linux disks, by itself. On
+macOS 15.6 or later, an app from the Mac App Store can bring file system modules
+that macOS then uses to mount disks, as it does its own. <a href="tuxkit.html">TuxKit</a> is such an app, free:
+it mounts ext3 and ext4 read and write, ext2 and btrfs read-only.</p>
+
+<h2>1. Install TuxKit</h2>
+<p>Get <a href="https://apps.apple.com/app/id6749868134">TuxKit on the Mac App Store</a>
+and open it once.</p>
+
+<h2>2. Turn on its modules (once)</h2>
+<p>macOS installs file system modules turned off: no volume mounts through TuxKit
+until they are turned on.</p>
+<ol>
+  <li>Open <strong>System Settings &gt; General &gt; Login Items &amp;
+  Extensions</strong>. Under Extensions, choose <strong>“By Category”</strong>,
+  then click <strong>(i)</strong> next to <strong>“File System
+  Extensions”</strong>.</li>
+  <li>Turn on <strong>“TuxKit — ext4, btrfs”</strong>.</li>
+</ol>
+<p>The TuxKit window shows the same steps and ticks each one when macOS reports
+it done.</p>
+
+<h2>3. Connect the drive</h2>
+<p>Connect your drive, or double-click the disk image of a Linux volume. macOS
+mounts the volume by itself and it appears in the Finder. If the drive was already connected when you
+turned the modules on, unplug it and plug it back in: macOS only offers a disk to
+the modules when it discovers it.</p>
+
+<h2>4. Read, write, eject</h2>
+<ul>
+  <li>On an ext3 or ext4 volume mounted read-write, create, copy, rename, edit
+  and delete files as on any other disk.</li>
+  <li>The TuxKit window shows whether each volume is read-write or read-only. A
+  read-only volume shows its reason: see
+  <a href="guide-lecture-seule.html">why a volume is read-only</a>.</li>
+  <li>Eject the volume in the Finder before unplugging the drive, as with any
+  disk.</li>
+</ul>
+
+<h2>What is not opened</h2>
+<p>Encrypted volumes (LUKS, ext4 encryption), XFS, ZFS, and LVM beyond simple
+linear logical volumes on a single physical volume. TuxKit does not format,
+repair or partition disks: use <code>e2fsck</code> on Linux to check or repair a
+volume. Details on the <a href="support.html">support page</a>.</p>
+
+<hr>
+
+<div id="fr" lang="fr">
+<h1>Ouvrir un disque ext4 sous macOS 15.6+</h1>
+<p class="date">Dernière mise à jour : 22 octobre 2026</p>
+
+<p>macOS n’ouvre pas de lui-même l’ext4, le format habituel des disques Linux.
+Sous macOS 15.6 ou ultérieur, une app du Mac App Store peut apporter des modules
+de système de fichiers dont macOS se sert ensuite pour monter les disques, comme
+des siens. <a href="tuxkit.html#fr">TuxKit</a>
+en est une, gratuite : elle monte ext3 et ext4 en lecture et en écriture, ext2 et
+btrfs en lecture seule.</p>
+
+<h2>1. Installer TuxKit</h2>
+<p>Téléchargez <a href="https://apps.apple.com/app/id6749868134">TuxKit sur le Mac App Store</a>
+et ouvrez-le une fois.</p>
+
+<h2>2. Activer ses modules (une fois)</h2>
+<p>macOS livre les modules de systèmes de fichiers désactivés : aucun volume ne se
+monte par TuxKit tant qu’ils ne sont pas activés.</p>
+<ol>
+  <li>Ouvrez <strong>Réglages Système &gt; Général &gt; Ouverture et
+  extensions</strong>. Sous Extensions, choisissez <strong>« Par
+  catégorie »</strong>, puis cliquez sur <strong>(i)</strong> à côté de
+  <strong>« Extensions du système de fichiers »</strong>.</li>
+  <li>Activez <strong>« TuxKit — ext4, btrfs »</strong>.</li>
+</ol>
+<p>La fenêtre de TuxKit affiche les mêmes étapes et coche chacune dès que macOS
+la dit faite.</p>
+
+<h2>3. Brancher le disque</h2>
+<p>Branchez votre disque, ou double-cliquez sur l’image disque d’un volume
+Linux. macOS monte le volume de lui-même, et il apparaît dans le Finder. Si le disque était déjà
+branché quand vous avez activé les modules, débranchez-le puis rebranchez-le :
+macOS ne propose un disque aux modules qu’au moment où il le découvre.</p>
+
+<h2>4. Lire, écrire, éjecter</h2>
+<ul>
+  <li>Sur un volume ext3 ou ext4 monté en lecture-écriture, créez, copiez,
+  renommez, modifiez et supprimez des fichiers comme sur n’importe quel disque.</li>
+  <li>La fenêtre de TuxKit indique si chaque volume est en lecture-écriture ou en
+  lecture seule. Un volume en lecture seule affiche sa raison : voir
+  <a href="guide-lecture-seule.html#fr">pourquoi un volume est en lecture seule</a>.</li>
+  <li>Éjectez le volume dans le Finder avant de débrancher le disque, comme pour
+  tout disque.</li>
+</ul>
+
+<h2>Ce qui ne s’ouvre pas</h2>
+<p>Les volumes chiffrés (LUKS, chiffrement ext4), XFS, ZFS, et LVM au-delà des
+volumes logiques linéaires simples sur un seul volume physique. TuxKit ne
+formate, ne répare et ne partitionne pas les disques : pour vérifier ou réparer
+un volume, utilisez <code>e2fsck</code> sous Linux. Détails sur la
+<a href="support.html#fr">page d’assistance</a>.</p>
+</div>
+
+<footer>
+<p>Apple, Mac, Mac App Store, macOS and Finder are trademarks of Apple Inc.,
+registered in the U.S. and other countries. Linux® is the registered trademark
+of Linus Torvalds in the U.S. and other countries.</p>
+</footer>
+</body>
+</html>

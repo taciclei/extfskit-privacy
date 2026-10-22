@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TuxKit for ext4 &amp; btrfs disks — Linux drives in the Finder / Disques Linux dans le Finder</title>
+<meta name="description" content="TuxKit: a free Mac App Store app that lets macOS 15.6+ mount ext4 and ext3 disks read-write, ext2 and btrfs read-only, in the Finder. No kernel extension, no administrator password, no data collected.">
+<style>
+  :root { color-scheme: light dark; }
+  body { max-width: 42rem; margin: 3rem auto; padding: 0 1.25rem;
+         font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  h1 { font-size: 1.6rem; margin-bottom: .25rem; }
+  h2 { font-size: 1.15rem; margin-top: 2.5rem; }
+  h3 { font-size: 1rem; margin-top: 1.6rem; margin-bottom: .2rem; }
+  .date, .note { color: #888; }
+  .date { margin-top: 0; }
+  .lead { font-size: 1.1rem; }
+  ul, ol { padding-left: 1.2rem; }
+  hr { border: none; border-top: 1px solid #8883; margin: 3rem 0; }
+  code { background: #8881; padding: .1em .35em; border-radius: 3px; }
+  table { border-collapse: collapse; margin: .5rem 0; font-size: .92rem; }
+  td, th { border: 1px solid #8884; padding: .3rem .6rem; text-align: left; vertical-align: top; }
+  .tableau { overflow-x: auto; }
+  nav, footer { font-size: .95rem; }
+  footer { margin-top: 3rem; color: #888; font-size: .85rem; }
+  .entete { display: flex; align-items: center; gap: .9rem; }
+  .entete img { width: 64px; height: 64px; }
+  .badge { display: inline-block; margin: 10px 0; padding: 10px 0; }
+  .badge img { height: 40px; width: auto; display: block; }
+</style>
+</head>
+<body>
+<nav><a href="#fr">Français plus bas</a> · <a href="#guides">Guides</a> · <a href="support.html">Support / Assistance</a> · <a href="index.html">Privacy / Confidentialité</a></nav>
+
+<div class="entete">
+  <img src="tuxkit-icon-512.png" alt="TuxKit icon" width="64" height="64">
+  <h1>TuxKit — ext4 &amp; btrfs disks in the Finder</h1>
+</div>
+<p class="lead">Connect a drive formatted on Linux and use it in the Finder. TuxKit
+mounts ext3 and ext4 <strong>read and write</strong>, ext2 and btrfs read-only.
+Free, no in-app purchase. No kernel extension, no administrator password, no data
+collected.</p>
+<p><em>TuxKit was called TuxBridge Disks until version 1.0.2: same app, new name.</em></p>
+
+<a class="badge" href="https://apps.apple.com/app/id6749868134"><img src="https://toolbox.marketingtools.apple.com/api/badges/download-on-the-mac-app-store/black/en-us?size=250x83" alt="Download on the Mac App Store" width="156" height="40"></a>
+<p class="note">Requires macOS 15.6 or later.</p>
+
+<h2>What it does</h2>
+<ul>
+  <li><strong>ext3 and ext4, read and write</strong>: create, copy, rename, edit
+  and delete files and folders as on any other disk.</li>
+  <li><strong>Your data comes first</strong>: a volume is mounted read-only,
+  instead of being written, when it has no journal (ext2), when Linux marked it
+  as having errors, or when it uses a feature the write engine does not handle.
+  A journal left to replay is replayed first when possible.
+  <a href="guide-lecture-seule.html">Why a volume is read-only</a>.</li>
+  <li><strong>btrfs, read-only</strong>, subvolumes and snapshots included.</li>
+  <li><strong>LVM</strong>: simple (linear) logical volumes held by a single
+  physical volume, one per physical volume.</li>
+  <li>Works with external drives and with the disk image of a Linux volume:
+  macOS mounts it by itself when you connect the drive or double-click the
+  image.</li>
+  <li>An app window lists the partitions connected to your Mac, shows which ones
+  TuxKit serves, and whether each volume is mounted read-write or read-only —
+  with the reason.</li>
+</ul>
+
+<h2>What it does not do</h2>
+<ul>
+  <li>It does not format, repair or partition disks. To check or repair a volume,
+  use <code>e2fsck</code> on Linux.</li>
+  <li>No RAID, thin, cache or snapshot LVM logical volumes, no logical volume
+  spread over several physical volumes.</li>
+  <li>No encrypted volumes (LUKS, ext4 encryption), no XFS, no ZFS.</li>
+  <li>No btrfs writing in this version.</li>
+</ul>
+
+<h2 id="setup">One-time setup</h2>
+<p>macOS installs file system modules turned off: no volume mounts through TuxKit
+until they are turned on. You only need to do this once. The app shows the same
+steps and ticks each one as macOS reports it done.</p>
+<ol>
+  <li>Install TuxKit and open it once.</li>
+  <li>Open <strong>System Settings &gt; General &gt; Login Items &amp;
+  Extensions</strong>. Under Extensions, choose <strong>“By Category”</strong>,
+  then click <strong>(i)</strong> next to <strong>“File System
+  Extensions”</strong>.</li>
+  <li>Turn on <strong>“TuxKit — ext4, btrfs”</strong>.</li>
+</ol>
+<p>Then unplug any disk that is already connected and plug it back in: macOS only
+offers a disk to the modules when it discovers it.</p>
+
+<h2>How it compares</h2>
+<p>The facts below about other tools come from each publisher’s Mac App Store
+listing or project page, <strong>as of October 2026</strong>. They may have
+changed since; check each publisher’s page.</p>
+<div class="tableau">
+<table>
+  <tr><th>Tool</th><th>Price</th><th>ext4 writing</th><th>btrfs</th><th>LVM</th><th>How / requirements</th></tr>
+  <tr><td><strong>TuxKit</strong></td><td>Free, no in-app purchase</td><td>Yes</td><td>Read-only</td><td>Simple linear volumes</td><td>File system module, native volume in the Finder, macOS 15.6+</td></tr>
+  <tr><td>ExtendFS</td><td>$14.99 on the Mac App Store; free build on GitHub</td><td>No (read-only)</td><td>No</td><td>No</td><td>File system module, macOS 15.6+</td></tr>
+  <tr><td>Ext4 Explorer</td><td>$2.99 + $3.99 in-app purchase for writing</td><td>Yes (in-app purchase)</td><td>Not stated</td><td>Not stated</td><td>File system module, macOS 26.4+</td></tr>
+  <tr><td>xlinuxfs</td><td>$2.99</td><td>Yes (per the publisher)</td><td>Read-write (per the publisher)</td><td>Not stated</td><td>File system module with LKL, macOS 15.4+</td></tr>
+  <tr><td>Luksmith</td><td>$9.99</td><td>Yes, plus LUKS encrypted volumes</td><td>No</td><td>No</td><td>Apple silicon, macOS 26+</td></tr>
+  <tr><td>anylinuxfs</td><td>Free (GPL-3.0)</td><td>Yes</td><td>Read-write</td><td>Yes (plus mdadm, LUKS, ZFS)</td><td>Command line, runs Linux in a microVM, volumes shared over NFS, Apple silicon only</td></tr>
+  <tr><td>Paragon extFS</td><td>See publisher</td><td>See publisher</td><td>See publisher</td><td>See publisher</td><td>Kernel extension, per its Homebrew cask</td></tr>
+</table>
+</div>
+<p class="note">Where another tool does more than TuxKit — LUKS in Luksmith,
+btrfs writing and more LVM layouts in anylinuxfs — the table says so.</p>
+
+<h2>Frequently asked questions</h2>
+<h3>Is it really free?</h3>
+<p>Yes. TuxKit is free on the Mac App Store, with no in-app purchase.</p>
+<h3>Do I need macFUSE, a kernel extension or an administrator password?</h3>
+<p>No. The file system modules are inside the app; you turn them on once in
+System Settings, and macOS mounts the disks itself.</p>
+<h3>Will it damage my Linux disk?</h3>
+<p>TuxKit mounts a volume read-only, rather than write to it, when writing could
+damage it. Eject the volume in the Finder before unplugging it, as with any
+disk. See <a href="guide-lecture-seule.html">why a volume is read-only</a>.</p>
+<h3>I connected my disk and nothing appears.</h3>
+<p>Check that the “TuxKit — ext4, btrfs” module is turned on (<a href="#setup">One-time setup</a>),
+then unplug and replug the disk. More in the <a href="support.html">support
+page</a>.</p>
+<h3>Can it format, repair or partition a disk?</h3>
+<p>No. Use Linux tools (<code>mkfs.ext4</code>, <code>e2fsck</code>,
+<code>parted</code>).</p>
+<h3>Does it send my data anywhere?</h3>
+<p>No. Neither the app nor its modules has network access. See the
+<a href="index.html">privacy policy</a>.</p>
+
+<h2 id="guides">Guides</h2>
+<ul>
+  <li><a href="guide-ext4-mac.html">Open an ext4 drive on macOS 15.6+</a></li>
+  <li><a href="guide-lecture-seule.html">Why is my volume read-only?</a></li>
+  <li><a href="guide-sd-card.html">Read and write a single-board computer’s SD card</a></li>
+</ul>
+
+<h2 id="press">Press kit</h2>
+<table>
+  <tr><th>Name</th><td>TuxKit (TuxBridge Disks, TuxBridge in French, until version 1.0.2)</td></tr>
+  <tr><th>What</th><td>File system modules that let macOS mount Linux disks in the Finder: ext3 and ext4 read-write, ext2 and btrfs read-only, simple linear LVM volumes</td></tr>
+  <tr><th>Price</th><td>Free, no in-app purchase</td></tr>
+  <tr><th>Category</th><td>Utilities</td></tr>
+  <tr><th>Requires</th><td>macOS 15.6 or later</td></tr>
+  <tr><th>Privacy</th><td>No account, no network access, no data collected; sandboxed app; no kernel extension, no administrator password</td></tr>
+  <tr><th>Safety</th><td>Mounts read-only, rather than write, when writing could damage the volume; ext3/ext4 writing checked against <code>e2fsck</code> and the Linux kernel</td></tr>
+  <tr><th>Developer</th><td>Taciclei Souza Hortencio, independent developer</td></tr>
+  <tr><th>Link</th><td><a href="https://apps.apple.com/app/id6749868134">TuxKit on the Mac App Store</a></td></tr>
+  <tr><th>Icon</th><td><a href="tuxkit-icon-512.png">PNG, 512 × 512</a></td></tr>
+  <tr><th>Contact</th><td><a href="mailto:taciclei@gmail.com">taciclei@gmail.com</a> (English or French)</td></tr>
+</table>
+
+<hr>
+
+<div id="fr" lang="fr">
+<h1>TuxKit — disques ext4 et btrfs dans le Finder</h1>
+<p class="lead">Branchez un disque formaté sous Linux et servez-vous-en dans le
+Finder. TuxKit monte ext3 et ext4 en <strong>lecture et en écriture</strong>,
+ext2 et btrfs en lecture seule. Gratuit, sans achat intégré. Sans extension
+noyau, sans mot de passe administrateur, aucune donnée collectée.</p>
+<p><em>TuxKit s’appelait TuxBridge jusqu’à la version 1.0.2 : même app, nouveau nom.</em></p>
+
+<a class="badge" href="https://apps.apple.com/app/id6749868134"><img src="https://toolbox.marketingtools.apple.com/api/badges/download-on-the-mac-app-store/black/fr-fr?size=250x83" alt="Télécharger dans le Mac App Store" width="156" height="40"></a>
+<p class="note">Nécessite macOS 15.6 ou ultérieur.</p>
+
+<h2>Ce qu’il fait</h2>
+<ul>
+  <li><strong>ext3 et ext4 en lecture et en écriture</strong> : créez, copiez,
+  renommez, modifiez et supprimez fichiers et dossiers comme sur n’importe quel
+  disque.</li>
+  <li><strong>Vos données d’abord</strong> : un volume est monté en lecture
+  seule, plutôt qu’écrit, s’il n’a pas de journal (ext2), si Linux l’a marqué en
+  erreur, ou s’il utilise une fonction que le moteur d’écriture ne gère pas. Un
+  journal laissé à rejouer est d’abord rejoué quand c’est possible.
+  <a href="guide-lecture-seule.html">Pourquoi un volume est en lecture seule</a>.</li>
+  <li><strong>btrfs en lecture seule</strong>, sous-volumes et instantanés compris.</li>
+  <li><strong>LVM</strong> : volumes logiques simples (linéaires), tenus par un
+  seul volume physique, un par volume physique.</li>
+  <li>Disques externes et image disque d’un volume Linux : macOS la monte de
+  lui-même quand vous branchez le disque ou double-cliquez sur l’image.</li>
+  <li>Une fenêtre liste les partitions branchées sur votre Mac, indique celles
+  que sert TuxKit, et si chaque volume est monté en lecture-écriture ou en
+  lecture seule — avec la raison.</li>
+</ul>
+
+<h2>Ce qu’il ne fait pas</h2>
+<ul>
+  <li>Il ne formate, ne répare et ne partitionne pas les disques. Pour vérifier
+  ou réparer un volume, utilisez <code>e2fsck</code> sous Linux.</li>
+  <li>Ni volumes logiques LVM RAID, thin, cache ou instantanés, ni volume logique
+  réparti sur plusieurs volumes physiques.</li>
+  <li>Ni volumes chiffrés (LUKS, chiffrement ext4), ni XFS, ni ZFS.</li>
+  <li>Pas d’écriture btrfs dans cette version.</li>
+</ul>
+
+<h2 id="activation">Activation, une seule fois</h2>
+<p>macOS livre les modules de systèmes de fichiers désactivés : aucun volume ne se
+monte par TuxKit tant qu’ils ne sont pas activés. Une seule fois suffit. L’app
+affiche les mêmes étapes et coche chacune dès que macOS la dit faite.</p>
+<ol>
+  <li>Installez TuxKit et ouvrez-le une fois.</li>
+  <li>Ouvrez <strong>Réglages Système &gt; Général &gt; Ouverture et
+  extensions</strong>. Sous Extensions, choisissez <strong>« Par
+  catégorie »</strong>, puis cliquez sur <strong>(i)</strong> à côté de
+  <strong>« Extensions du système de fichiers »</strong>.</li>
+  <li>Activez <strong>« TuxKit — ext4, btrfs »</strong>.</li>
+</ol>
+<p>Ensuite, débranchez puis rebranchez les disques déjà branchés : macOS ne
+propose un disque aux modules qu’au moment où il le découvre.</p>
+
+<h2>Comparaison</h2>
+<p>Les informations sur les autres outils viennent de la fiche Mac App Store ou
+de la page du projet de chaque éditeur, <strong>en octobre 2026</strong>. Elles
+ont pu changer depuis ; vérifiez la page de chaque éditeur.</p>
+<div class="tableau">
+<table>
+  <tr><th>Outil</th><th>Prix</th><th>Écriture ext4</th><th>btrfs</th><th>LVM</th><th>Fonctionnement / prérequis</th></tr>
+  <tr><td><strong>TuxKit</strong></td><td>Gratuit, sans achat intégré</td><td>Oui</td><td>Lecture seule</td><td>Volumes linéaires simples</td><td>Module de système de fichiers, volume natif dans le Finder, macOS 15.6+</td></tr>
+  <tr><td>ExtendFS</td><td>14,99 $ sur le Mac App Store ; build gratuit sur GitHub</td><td>Non (lecture seule)</td><td>Non</td><td>Non</td><td>Module de système de fichiers, macOS 15.6+</td></tr>
+  <tr><td>Ext4 Explorer</td><td>2,99 $ + 3,99 $ d’achat intégré pour l’écriture</td><td>Oui (achat intégré)</td><td>Non indiqué</td><td>Non indiqué</td><td>Module de système de fichiers, macOS 26.4+</td></tr>
+  <tr><td>xlinuxfs</td><td>2,99 $</td><td>Oui (selon l’éditeur)</td><td>Lecture-écriture (selon l’éditeur)</td><td>Non indiqué</td><td>Module de système de fichiers avec LKL, macOS 15.4+</td></tr>
+  <tr><td>Luksmith</td><td>9,99 $</td><td>Oui, plus les volumes chiffrés LUKS</td><td>Non</td><td>Non</td><td>Apple silicon, macOS 26+</td></tr>
+  <tr><td>anylinuxfs</td><td>Gratuit (GPL-3.0)</td><td>Oui</td><td>Lecture-écriture</td><td>Oui (plus mdadm, LUKS, ZFS)</td><td>Ligne de commande, Linux dans une microVM, volumes partagés en NFS, Apple silicon seulement</td></tr>
+  <tr><td>Paragon extFS</td><td>Voir l’éditeur</td><td>Voir l’éditeur</td><td>Voir l’éditeur</td><td>Voir l’éditeur</td><td>Extension noyau, d’après son cask Homebrew</td></tr>
+</table>
+</div>
+<p class="note">Là où un autre outil fait plus que TuxKit — LUKS chez Luksmith,
+écriture btrfs et davantage de dispositions LVM chez anylinuxfs — le tableau le
+dit.</p>
+
+<h2>Questions fréquentes</h2>
+<h3>Est-il vraiment gratuit ?</h3>
+<p>Oui. TuxKit est gratuit sur le Mac App Store, sans achat intégré.</p>
+<h3>Faut-il macFUSE, une extension noyau ou un mot de passe administrateur ?</h3>
+<p>Non. Les modules de système de fichiers sont dans l’app ; vous les activez une
+fois dans Réglages Système, et macOS monte lui-même les disques.</p>
+<h3>Va-t-il abîmer mon disque Linux ?</h3>
+<p>TuxKit monte un volume en lecture seule, plutôt que d’y écrire, quand écrire
+pourrait l’abîmer. Éjectez le volume dans le Finder avant de le débrancher,
+comme pour tout disque. Voir <a href="guide-lecture-seule.html">pourquoi un
+volume est en lecture seule</a>.</p>
+<h3>J’ai branché mon disque et rien n’apparaît.</h3>
+<p>Vérifiez que le module « TuxKit — ext4, btrfs » est activé (<a href="#activation">Activation,
+une seule fois</a>), puis débranchez et rebranchez le disque. Plus de détails
+sur la <a href="support.html#fr">page d’assistance</a>.</p>
+<h3>Peut-il formater, réparer ou partitionner un disque ?</h3>
+<p>Non. Utilisez les outils de Linux (<code>mkfs.ext4</code>,
+<code>e2fsck</code>, <code>parted</code>).</p>
+<h3>Envoie-t-il mes données quelque part ?</h3>
+<p>Non. Ni l’application ni ses modules n’ont accès au réseau. Voir la
+<a href="index.html">politique de confidentialité</a>.</p>
+
+<h2 id="guides-fr">Guides</h2>
+<ul>
+  <li><a href="guide-ext4-mac.html#fr">Ouvrir un disque ext4 sous macOS 15.6+</a></li>
+  <li><a href="guide-lecture-seule.html#fr">Pourquoi mon volume est-il en lecture seule ?</a></li>
+  <li><a href="guide-sd-card.html#fr">Lire et écrire la carte SD d’un ordinateur monocarte</a></li>
+</ul>
+
+<h2 id="presse">Kit presse</h2>
+<table>
+  <tr><th>Nom</th><td>TuxKit (TuxBridge jusqu’à la version 1.0.2)</td></tr>
+  <tr><th>Quoi</th><td>Des modules de système de fichiers qui permettent à macOS de monter les disques Linux dans le Finder : ext3 et ext4 en lecture-écriture, ext2 et btrfs en lecture seule, volumes LVM linéaires simples</td></tr>
+  <tr><th>Prix</th><td>Gratuit, sans achat intégré</td></tr>
+  <tr><th>Catégorie</th><td>Utilitaires</td></tr>
+  <tr><th>Nécessite</th><td>macOS 15.6 ou ultérieur</td></tr>
+  <tr><th>Confidentialité</th><td>Aucun compte, aucun accès réseau, aucune donnée collectée ; app en bac à sable ; sans extension noyau ni mot de passe administrateur</td></tr>
+  <tr><th>Sécurité</th><td>Monte en lecture seule, plutôt que d’écrire, quand écrire pourrait abîmer le volume ; écriture ext3/ext4 vérifiée avec <code>e2fsck</code> et le noyau Linux</td></tr>
+  <tr><th>Développeur</th><td>Taciclei Souza Hortencio, développeur indépendant</td></tr>
+  <tr><th>Lien</th><td><a href="https://apps.apple.com/app/id6749868134">TuxKit sur le Mac App Store</a></td></tr>
+  <tr><th>Icône</th><td><a href="tuxkit-icon-512.png">PNG, 512 × 512</a></td></tr>
+  <tr><th>Contact</th><td><a href="mailto:taciclei@gmail.com">taciclei@gmail.com</a> (français ou anglais)</td></tr>
+</table>
+</div>
+
+<footer>
+<p>Apple, the Apple logo, Mac, Mac App Store, macOS and Finder are trademarks of
+Apple Inc., registered in the U.S. and other countries. Linux® is the registered
+trademark of Linus Torvalds in the U.S. and other countries. Other product names
+are trademarks of their respective owners.</p>
+<p lang="fr">Apple, le logo Apple, Mac, Mac App Store, macOS et Finder sont des
+marques d’Apple Inc., déposées aux États-Unis et dans d’autres pays. Linux® est
+la marque déposée de Linus Torvalds aux États-Unis et dans d’autres pays. Les
+autres noms de produits sont des marques de leurs propriétaires respectifs.</p>
+</footer>
+</body>
+</html>

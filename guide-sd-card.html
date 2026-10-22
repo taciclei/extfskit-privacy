@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Read and write a single-board computer’s ext4 SD card on macOS 15.6+ — TuxKit guide / Carte SD ext4 d’un ordinateur monocarte</title>
+<meta name="description" content="How to open the Linux (ext4) partition of a single-board computer’s SD card in the Finder on macOS 15.6 or later with the free TuxKit app, and edit its files.">
+<style>
+  :root { color-scheme: light dark; }
+  body { max-width: 42rem; margin: 3rem auto; padding: 0 1.25rem;
+         font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  h1 { font-size: 1.6rem; margin-bottom: .25rem; }
+  h2 { font-size: 1.15rem; margin-top: 2.5rem; }
+  .date { color: #888; margin-top: 0; }
+  ul, ol { padding-left: 1.2rem; }
+  li { margin-bottom: .3rem; }
+  hr { border: none; border-top: 1px solid #8883; margin: 3rem 0; }
+  code { background: #8881; padding: .1em .35em; border-radius: 3px; }
+  nav { font-size: .95rem; }
+  footer { margin-top: 3rem; color: #888; font-size: .85rem; }
+</style>
+</head>
+<body>
+<nav><a href="tuxkit.html">TuxKit</a> · <a href="#fr">Français plus bas</a> · <a href="support.html">Support</a></nav>
+
+<h1>Read and write a single-board computer’s SD card</h1>
+<p class="date">Last updated: 22 October 2026</p>
+
+<p>The SD card of a single-board computer running Linux usually holds two
+partitions: a small boot partition in FAT, which macOS opens by itself, and the
+system partition in ext4, which macOS does not open. That second partition is
+where the system’s configuration files and your home folder live.
+<a href="tuxkit.html">TuxKit</a> lets macOS mount it in the Finder: read and
+write when every feature of the volume is supported, read-only otherwise.</p>
+
+<h2>1. Set up TuxKit once</h2>
+<ol>
+  <li>Get <a href="https://apps.apple.com/app/id6749868134">TuxKit on the Mac App Store</a>
+  and open it once.</li>
+  <li>Open <strong>System Settings &gt; General &gt; Login Items &amp;
+  Extensions</strong>. Under Extensions, choose <strong>“By Category”</strong>,
+  then click <strong>(i)</strong> next to <strong>“File System
+  Extensions”</strong>.</li>
+  <li>Turn on <strong>“TuxKit — ext4, btrfs”</strong>.</li>
+</ol>
+
+<h2>2. Insert the card</h2>
+<p>Shut the device down properly, take the card out, and insert it in your Mac’s
+card reader or a USB reader. If the card was already inserted when you turned the
+modules on, take it out and insert it again: macOS only offers a disk to the
+modules when it discovers it. The ext4 partition then appears in the Finder.</p>
+
+<h2>3. Edit, then eject</h2>
+<ul>
+  <li>Open, copy, edit, rename and delete files as on any other disk, if the
+  TuxKit window says the volume is read-write.</li>
+  <li>Changing system files can stop the device from starting. Copy a file to
+  your Mac before you edit it.</li>
+  <li><strong>Eject</strong> the volume in the Finder before you take the card
+  out. Unplugging without ejecting can leave writes unfinished.</li>
+</ul>
+
+<h2>If the partition is read-only</h2>
+<p>The TuxKit window gives the reason. The usual ones for a card:</p>
+<ul>
+  <li>the card’s lock switch is on (“The medium refuses writes”);</li>
+  <li>the system was formatted with an ext4 feature the write engine does not
+  handle yet; the app names it.</li>
+</ul>
+<p>Every reason, word for word: <a href="guide-lecture-seule.html">why is my
+volume read-only?</a></p>
+
+<h2>If nothing appears</h2>
+<p>Check that the module is turned on, then take the card out and insert it
+again. A partition that is encrypted, or in a format other than ext2, ext3, ext4
+or btrfs, is not opened. If the device was switched off without
+shutting down and TuxKit cannot replay the journal it left, the partition is not
+mounted at all: start the device and shut it down properly once, or run
+<code>e2fsck</code> on Linux. More on the <a href="support.html">support
+page</a>.</p>
+
+<hr>
+
+<div id="fr" lang="fr">
+<h1>Lire et écrire la carte SD d’un ordinateur monocarte</h1>
+<p class="date">Dernière mise à jour : 22 octobre 2026</p>
+
+<p>La carte SD d’un ordinateur monocarte sous Linux porte en général deux
+partitions : une petite partition de démarrage en FAT, que macOS ouvre de
+lui-même, et la partition système en ext4, que macOS n’ouvre pas. C’est sur
+cette seconde partition que vivent les fichiers de configuration du système et
+votre dossier personnel. <a href="tuxkit.html#fr">TuxKit</a> permet à macOS de
+la monter dans le Finder : en lecture et écriture si toutes les fonctions du
+volume sont prises en charge, en lecture seule sinon.</p>
+
+<h2>1. Installer TuxKit, une fois</h2>
+<ol>
+  <li>Téléchargez <a href="https://apps.apple.com/app/id6749868134">TuxKit sur le Mac App Store</a>
+  et ouvrez-le une fois.</li>
+  <li>Ouvrez <strong>Réglages Système &gt; Général &gt; Ouverture et
+  extensions</strong>. Sous Extensions, choisissez <strong>« Par
+  catégorie »</strong>, puis cliquez sur <strong>(i)</strong> à côté de
+  <strong>« Extensions du système de fichiers »</strong>.</li>
+  <li>Activez <strong>« TuxKit — ext4, btrfs »</strong>.</li>
+</ol>
+
+<h2>2. Insérer la carte</h2>
+<p>Éteignez proprement l’appareil, retirez la carte, et insérez-la dans le
+lecteur de cartes de votre Mac ou un lecteur USB. Si la carte était déjà
+insérée quand vous avez activé les modules, retirez-la et insérez-la de
+nouveau : macOS ne propose un disque aux modules qu’au moment où il le découvre.
+La partition ext4 apparaît alors dans le Finder.</p>
+
+<h2>3. Modifier, puis éjecter</h2>
+<ul>
+  <li>Ouvrez, copiez, modifiez, renommez et supprimez des fichiers comme sur
+  n’importe quel disque, si la fenêtre de TuxKit indique que le volume est en
+  lecture-écriture.</li>
+  <li>Modifier des fichiers système peut empêcher l’appareil de démarrer.
+  Copiez un fichier sur votre Mac avant de le modifier.</li>
+  <li><strong>Éjectez</strong> le volume dans le Finder avant de retirer la
+  carte. Débrancher sans éjecter peut laisser des écritures inachevées.</li>
+</ul>
+
+<h2>Si la partition est en lecture seule</h2>
+<p>La fenêtre de TuxKit en donne la raison. Les plus courantes pour une carte :</p>
+<ul>
+  <li>le loquet de la carte est sur « verrouillé » (« Le support refuse
+  l'écriture ») ;</li>
+  <li>le système a été formaté avec une fonction ext4 que le moteur d’écriture
+  ne gère pas encore ; l’app la nomme.</li>
+</ul>
+<p>Toutes les raisons, mot pour mot : <a href="guide-lecture-seule.html#fr">pourquoi
+mon volume est-il en lecture seule ?</a></p>
+
+<h2>Si rien n’apparaît</h2>
+<p>Vérifiez que le module est activé, puis retirez la carte et
+insérez-la de nouveau. Une partition chiffrée, ou dans un autre format qu’ext2,
+ext3, ext4 ou btrfs, ne s’ouvre pas. Si l’appareil a été coupé sans
+être éteint et que TuxKit ne peut pas rejouer le journal laissé, la partition
+n’est pas montée du tout : démarrez puis éteignez proprement l’appareil une
+fois, ou lancez <code>e2fsck</code> sous Linux. Plus de détails sur la
+<a href="support.html#fr">page d’assistance</a>.</p>
+</div>
+
+<footer>
+<p>Apple, Mac, Mac App Store, macOS and Finder are trademarks of Apple Inc.,
+registered in the U.S. and other countries. Linux® is the registered trademark
+of Linus Torvalds in the U.S. and other countries.</p>
+</footer>
+</body>
+</html>

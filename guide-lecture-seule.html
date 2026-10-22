@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why is my ext4 volume read-only? — TuxKit ext4 guide / Pourquoi mon volume est-il en lecture seule ?</title>
+<meta name="description" content="Each reason TuxKit gives for mounting an ext4, ext3, ext2, btrfs or LVM volume read-only, word for word, and what to do about it.">
+<style>
+  :root { color-scheme: light dark; }
+  body { max-width: 42rem; margin: 3rem auto; padding: 0 1.25rem;
+         font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  h1 { font-size: 1.6rem; margin-bottom: .25rem; }
+  h2 { font-size: 1.15rem; margin-top: 2.5rem; }
+  .date { color: #888; margin-top: 0; }
+  ul, ol { padding-left: 1.2rem; }
+  hr { border: none; border-top: 1px solid #8883; margin: 3rem 0; }
+  code { background: #8881; padding: .1em .35em; border-radius: 3px; }
+  table { border-collapse: collapse; margin: .5rem 0; font-size: .93rem; }
+  td, th { border: 1px solid #8884; padding: .3rem .6rem; text-align: left; vertical-align: top; }
+  nav { font-size: .95rem; }
+  footer { margin-top: 3rem; color: #888; font-size: .85rem; }
+</style>
+</head>
+<body>
+<nav><a href="tuxkit.html">TuxKit</a> · <a href="#fr">Français plus bas</a> · <a href="support.html">Support</a></nav>
+
+<h1>Why is my volume read-only?</h1>
+<p class="date">Last updated: 22 October 2026</p>
+
+<p><a href="tuxkit.html">TuxKit</a> mounts a volume read-only, rather than write
+to it, when writing could damage it. Your files stay readable and can be copied
+to your Mac. The TuxKit window shows, for each read-only volume, the reason
+below — word for word.</p>
+
+<h2>ext4, ext3, ext2</h2>
+<table>
+  <tr><th>What TuxKit says</th><th>What it means, what to do</th></tr>
+  <tr><td>“Volume without a journal (ext2, or ext3/ext4 formatted without one): TuxKit only writes to journaled volumes.”</td>
+      <td>Expected for ext2. The volume stays read-only in TuxKit.</td></tr>
+  <tr><td>“The volume is marked as having errors: run e2fsck under Linux before writing to it.”</td>
+      <td>Linux recorded an error on this volume. Only <code>e2fsck</code>, under Linux, clears that mark.</td></tr>
+  <tr><td>“The volume uses ext4 features that TuxKit cannot write yet; reading is safe.” followed by “Features involved: …”</td>
+      <td>The volume was formatted with an option the write engine does not handle yet (for example <code>fast_commit</code>, <code>bigalloc</code>, <code>quota</code>, <code>project</code> or <code>verity</code>). The app names the features involved. A volume made by a default <code>mkfs.ext4</code> is not concerned: <code>metadata_csum</code>, <code>csum_seed</code> and <code>orphan_file</code> are written.</td></tr>
+  <tr><td>“This volume uses a journal layout that TuxKit cannot write yet.”</td>
+      <td>Reading works; writing waits for a later version.</td></tr>
+  <tr><td>“The journal holds operations to replay: unmount the volume cleanly under Linux, or run e2fsck.”</td>
+      <td>The disk was removed from Linux without being unmounted. TuxKit replays such a journal itself when it can; here it could not. Mount and unmount it once under Linux, or run <code>e2fsck</code>.</td></tr>
+  <tr><td>“The journal still points to pending transactions: unmount the volume cleanly under Linux.”</td>
+      <td>Same cause: unmount it cleanly under Linux.</td></tr>
+  <tr><td>“The volume's journal is missing or unreadable.”</td>
+      <td>Check the volume with <code>e2fsck</code> under Linux.</td></tr>
+  <tr><td>“The volume's write status could not be read.”</td>
+      <td>TuxKit could not confirm writing is safe, so it does not write.</td></tr>
+  <tr><td>“Deleted but still-open files (orphans) could not be cleaned up; the volume stays readable.”</td>
+      <td>Run <code>e2fsck</code> under Linux to clean them up.</td></tr>
+</table>
+<p>When a journal must be replayed and the replay fails, the volume is not mounted
+at all, read-only included — as on Linux — and the app says: “The volume's journal
+had to be replayed before writing, and that recovery failed: the volume was not
+mounted. Unmount it cleanly under Linux, or run e2fsck.”</p>
+
+<h2>btrfs</h2>
+<table>
+  <tr><th>What TuxKit says</th><th>What it means, what to do</th></tr>
+  <tr><td>“This version mounts btrfs read-only.”</td>
+      <td>Always the case for btrfs in this version.</td></tr>
+  <tr><td>“Linux did not unmount this volume: its latest writes are in a log that only Linux can replay. Mount it once under Linux to see them here.”</td>
+      <td>What you see is the volume as it was before those last writes.</td></tr>
+</table>
+
+<h2>LVM</h2>
+<table>
+  <tr><th>What TuxKit says</th><th>What it means, what to do</th></tr>
+  <tr><td>“LVM logical volume mounted read-only: its group contains an LVM snapshot, or it is not marked writable.”</td>
+      <td>Writing beside an LVM snapshot, or to a volume LVM marked read-only, is not done.</td></tr>
+</table>
+
+<h2>Any format</h2>
+<table>
+  <tr><th>What TuxKit says</th><th>What it means, what to do</th></tr>
+  <tr><td>“The medium refuses writes (locked disk or read-only image).”</td>
+      <td>The disk itself is write-protected — for example an SD card with its lock switch on, or a read-only disk image.</td></tr>
+  <tr><td>“Mounted read-only on request (mount option).”</td>
+      <td>Someone asked for a read-only mount.</td></tr>
+  <tr><td>“The module could not verify its own FSKit module signature.”</td>
+      <td>Reinstall TuxKit from the Mac App Store; if it persists, <a href="support.html">contact support</a>.</td></tr>
+  <tr><td>“Mounted read-only by macOS itself: TuxKit plays no part in this volume.”</td>
+      <td>macOS mounted this volume with its own drivers, not through TuxKit.</td></tr>
+</table>
+
+<hr>
+
+<div id="fr" lang="fr">
+<h1>Pourquoi mon volume est-il en lecture seule ?</h1>
+<p class="date">Dernière mise à jour : 22 octobre 2026</p>
+
+<p><a href="tuxkit.html#fr">TuxKit</a> monte un volume en lecture seule, plutôt
+que d’y écrire, quand écrire pourrait l’abîmer. Vos fichiers restent lisibles et
+peuvent être copiés sur votre Mac. La fenêtre de TuxKit affiche, pour chaque
+volume en lecture seule, la raison ci-dessous — mot pour mot.</p>
+
+<h2>ext4, ext3, ext2</h2>
+<table>
+  <tr><th>Ce que dit TuxKit</th><th>Ce que cela veut dire, que faire</th></tr>
+  <tr><td>« Volume sans journal (ext2, ou ext3/ext4 formaté sans journal) : TuxKit n'écrit que sur un volume journalisé. »</td>
+      <td>Normal pour un ext2. Le volume reste en lecture seule dans TuxKit.</td></tr>
+  <tr><td>« Le volume est marqué comme contenant des erreurs : lancez e2fsck sous Linux avant d'écrire. »</td>
+      <td>Linux a consigné une erreur sur ce volume. Seul <code>e2fsck</code>, sous Linux, efface cette marque.</td></tr>
+  <tr><td>« Le volume utilise des fonctions ext4 que l'écriture de TuxKit ne gère pas ; la lecture, elle, est sûre. » suivi de « Fonctions concernées : … »</td>
+      <td>Le volume a été formaté avec une option que le moteur d’écriture ne gère pas encore (par exemple <code>fast_commit</code>, <code>bigalloc</code>, <code>quota</code>, <code>project</code> ou <code>verity</code>). L’app nomme les fonctions concernées. Un volume créé par <code>mkfs.ext4</code> avec ses options par défaut n’est pas concerné : <code>metadata_csum</code>, <code>csum_seed</code> et <code>orphan_file</code> sont écrits.</td></tr>
+  <tr><td>« Ce volume utilise une forme de journal que l'écriture de TuxKit ne gère pas encore. »</td>
+      <td>La lecture fonctionne ; l’écriture attend une prochaine version.</td></tr>
+  <tr><td>« Le journal contient des opérations à rejouer : démontez proprement le volume sous Linux, ou lancez e2fsck. »</td>
+      <td>Le disque a été retiré de Linux sans être démonté. TuxKit rejoue lui-même un tel journal quand il le peut ; ici, il n’a pas pu. Montez-le et démontez-le une fois sous Linux, ou lancez <code>e2fsck</code>.</td></tr>
+  <tr><td>« Le journal pointe encore vers des transactions en attente : démontez proprement le volume sous Linux. »</td>
+      <td>Même cause : démontez-le proprement sous Linux.</td></tr>
+  <tr><td>« Le journal du volume est absent ou illisible. »</td>
+      <td>Vérifiez le volume avec <code>e2fsck</code> sous Linux.</td></tr>
+  <tr><td>« L'état d'écriture du volume n'a pas pu être lu. »</td>
+      <td>TuxKit n’a pas pu confirmer qu’écrire est sûr ; il n’écrit donc pas.</td></tr>
+  <tr><td>« Des fichiers supprimés mais encore ouverts (orphelins) n'ont pas pu être nettoyés ; le volume reste lisible. »</td>
+      <td>Lancez <code>e2fsck</code> sous Linux pour les nettoyer.</td></tr>
+</table>
+<p>Quand un journal doit être rejoué et que la reprise échoue, le volume n’est pas
+monté du tout, pas même en lecture seule — comme sous Linux —, et l’app dit :
+« Le journal du volume devait être rejoué avant d'écrire, et cette reprise a
+échoué : le volume n'a pas été monté. Démontez-le proprement sous Linux, ou lancez
+e2fsck. »</p>
+
+<h2>btrfs</h2>
+<table>
+  <tr><th>Ce que dit TuxKit</th><th>Ce que cela veut dire, que faire</th></tr>
+  <tr><td>« Cette version monte btrfs en lecture seule. »</td>
+      <td>Toujours le cas pour btrfs dans cette version.</td></tr>
+  <tr><td>« Linux n’a pas démonté ce volume : ses dernières écritures sont dans un journal que seul Linux sait rejouer. Montez-le une fois sous Linux pour les retrouver ici. »</td>
+      <td>Ce que vous voyez est le volume tel qu’il était avant ces dernières écritures.</td></tr>
+</table>
+
+<h2>LVM</h2>
+<table>
+  <tr><th>Ce que dit TuxKit</th><th>Ce que cela veut dire, que faire</th></tr>
+  <tr><td>« Volume logique LVM en lecture seule : son groupe contient un instantané LVM, ou il n’est pas marqué en écriture. »</td>
+      <td>TuxKit n’écrit ni à côté d’un instantané LVM, ni sur un volume que LVM a marqué en lecture seule.</td></tr>
+</table>
+
+<h2>Tous formats</h2>
+<table>
+  <tr><th>Ce que dit TuxKit</th><th>Ce que cela veut dire, que faire</th></tr>
+  <tr><td>« Le support refuse l'écriture (disque verrouillé ou image en lecture seule). »</td>
+      <td>Le disque lui-même est protégé en écriture — par exemple une carte SD dont le loquet est sur « verrouillé », ou une image disque en lecture seule.</td></tr>
+  <tr><td>« Monté en lecture seule à la demande (option de montage). »</td>
+      <td>Un montage en lecture seule a été demandé.</td></tr>
+  <tr><td>« Le module n'a pas pu vérifier sa propre signature de module FSKit. »</td>
+      <td>Réinstallez TuxKit depuis le Mac App Store ; si cela persiste, <a href="support.html#fr">écrivez à l’assistance</a>.</td></tr>
+  <tr><td>« Monté par macOS lui-même, en lecture seule : TuxKit n'intervient pas sur ce volume. »</td>
+      <td>macOS a monté ce volume avec ses propres pilotes, pas par TuxKit.</td></tr>
+</table>
+</div>
+
+<footer>
+<p>Apple, Mac, Mac App Store and macOS are trademarks of Apple Inc., registered
+in the U.S. and other countries. Linux® is the registered trademark of Linus
+Torvalds in the U.S. and other countries.</p>
+</footer>
+</body>
+</html>

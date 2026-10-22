@@ -21,11 +21,11 @@
 </style>
 </head>
 <body>
-<nav><a href="#fr">Français plus bas</a> · <a href="index.html">Privacy Policy / Confidentialité</a></nav>
+<nav><a href="tuxkit.html">TuxKit (ext4, btrfs)</a> · <a href="#fr">Français plus bas</a> · <a href="index.html">Privacy Policy / Confidentialité</a> · <a href="tuxkit.html#guides">Guides</a></nav>
 
 <h1>TuxKit — Support</h1>
-<p><em>TuxKit was called TuxBridge until version 1.0.2: same app, same settings, new name. If an older copy named TuxBridge is still in Applications, move it to the Trash: two copies of the same extensions confuse macOS.</em></p>
-<p class="date">Last updated: 16 October 2026</p>
+<p><em>TuxKit was called TuxBridge Disks until version 1.0.2: same app, same settings, new name. If an older copy named TuxBridge is still in Applications, move it to the Trash: two copies of the same extensions confuse macOS.</em></p>
+<p class="date">Last updated: 22 October 2026</p>
 
 <h2>Contact</h2>
 <p>Write to <a href="mailto:taciclei@gmail.com">taciclei@gmail.com</a>.
@@ -36,13 +36,11 @@ btrfs…), and what you expected versus what happened. English or French.</p>
 <ol>
   <li>Install TuxKit and open it once.</li>
   <li>Open <strong>System Settings &gt; General &gt; Login Items &amp;
-  Extensions</strong>. In the Extensions section, choose <strong>By
-  Category</strong>, click the <strong>ⓘ</strong> button next to
-  <strong>File System Extensions</strong>, and turn on
-  <strong>TuxKit — ext4, btrfs</strong> and <strong>TriFS-24</strong>.
-  (You can also choose <strong>By App</strong> &gt; TuxKit.)</li>
-  <li>Connect your Linux disk, or double-click a disk image. macOS mounts the
-  volume by itself and it appears in the Finder.</li>
+  Extensions</strong>. Under Extensions, choose <strong>“By Category”</strong>,
+  then click <strong>(i)</strong> next to <strong>“File System
+  Extensions”</strong>. Turn on <strong>“TuxKit — ext4, btrfs”</strong>.</li>
+  <li>Connect your Linux disk, or double-click the disk image of a Linux volume.
+  macOS mounts the volume by itself and it appears in the Finder.</li>
 </ol>
 <p>macOS installs third-party file system extensions turned off: nothing
 mounts until step 2 is done. This is needed only once.</p>
@@ -61,7 +59,6 @@ when you are done.</p>
   <tr><td>ext2</td><td>read-only (no journal)</td></tr>
   <tr><td>btrfs</td><td>read-only</td></tr>
   <tr><td>LVM</td><td>simple (linear) logical volumes on a single physical volume, holding ext2, ext3, ext4 or btrfs: same access as that format, but read-only when the volume group holds an LVM snapshot, or when the logical volume or its volume group is not marked writable. When a physical volume holds several logical volumes, TuxKit mounts only one: the first visible one, in name order, that holds ext2, ext3 or ext4 (or, if none does, the first that holds btrfs). Logical volumes spread over several physical volumes, RAID, thin, cache and snapshot volumes are not mounted.</td></tr>
-  <tr><td>TriFS-24</td><td>supported</td></tr>
 </table>
 <p>Requires macOS 15.6 or later.</p>
 
@@ -69,7 +66,7 @@ when you are done.</p>
 
 <h3>I connected my disk and nothing appears.</h3>
 <ul>
-  <li>Check that both extensions are turned on (Getting started, step 2).</li>
+  <li>Check that the extension is turned on (Getting started, step 2).</li>
   <li>The disk may use a format TuxKit does not open: encrypted volumes
   (LUKS, ext4 encryption), XFS, ZFS, LVM beyond simple logical volumes (see
   What works)… The TuxKit window lists every partition and says which ones
@@ -102,15 +99,15 @@ Unplugging without ejecting can leave writes unfinished.</p>
 <a href="index.html">privacy policy</a>.</p>
 
 <h3>How do I stop using TuxKit?</h3>
-<p>Turn the two extensions off in System Settings (Getting started, step 2),
-or delete the app: its extensions are removed with it.</p>
+<p>Turn the extension off in System Settings (Getting started, step 2),
+or delete the app: what it installed is removed with it.</p>
 
 <hr>
 
 <div id="fr" lang="fr">
 <h1>TuxKit — Assistance</h1>
 <p><em>TuxKit s’appelait TuxBridge jusqu’à la version 1.0.2 : même app, mêmes réglages, nouveau nom. S’il reste dans Applications une ancienne copie nommée TuxBridge, placez-la à la Corbeille : deux copies des mêmes extensions embrouillent macOS.</em></p>
-<p class="date">Dernière mise à jour : 16 octobre 2026</p>
+<p class="date">Dernière mise à jour : 22 octobre 2026</p>
 
 <h2>Contact</h2>
 <p>Écrivez à <a href="mailto:taciclei@gmail.com">taciclei@gmail.com</a>.
@@ -122,13 +119,13 @@ ou en anglais.</p>
 <ol>
   <li>Installez TuxKit et ouvrez-le une fois.</li>
   <li>Ouvrez <strong>Réglages Système &gt; Général &gt; Ouverture et
-  extensions</strong>. Dans la section Extensions, choisissez <strong>Par
-  catégorie</strong>, cliquez sur le bouton <strong>ⓘ</strong> à côté de
-  <strong>Extensions du système de fichiers</strong>, et activez
-  <strong>TuxKit — ext4, btrfs</strong> et <strong>TriFS-24</strong>.
-  (Ou bien : <strong>Par app</strong> &gt; TuxKit.)</li>
-  <li>Branchez votre disque Linux, ou double-cliquez sur une image disque.
-  macOS monte le volume de lui-même, et il apparaît dans le Finder.</li>
+  extensions</strong>. Sous Extensions, choisissez <strong>« Par
+  catégorie »</strong>, puis cliquez sur <strong>(i)</strong> à côté de
+  <strong>« Extensions du système de fichiers »</strong>. Activez
+  <strong>« TuxKit — ext4, btrfs »</strong>.</li>
+  <li>Branchez votre disque Linux, ou double-cliquez sur l’image disque d’un
+  volume Linux. macOS monte le volume de lui-même, et il apparaît dans le
+  Finder.</li>
 </ol>
 <p>macOS installe les extensions de système de fichiers tierces désactivées :
 rien ne se monte tant que l’étape 2 n’est pas faite. Elle ne se fait qu’une
@@ -148,7 +145,6 @@ renommez-le. Éjectez-le dans le Finder quand vous avez fini.</p>
   <tr><td>ext2</td><td>lecture seule (pas de journal)</td></tr>
   <tr><td>btrfs</td><td>lecture seule</td></tr>
   <tr><td>LVM</td><td>volumes logiques simples (linéaires) sur un seul volume physique, contenant de l’ext2, ext3, ext4 ou btrfs : même accès que ce format, mais lecture seule si le groupe de volumes contient un instantané LVM, ou si le volume logique ou son groupe de volumes n’est pas marqué en écriture. Quand un volume physique porte plusieurs volumes logiques, TuxKit n’en monte qu’un : le premier visible, dans l’ordre des noms, qui contient de l’ext2, ext3 ou ext4 (ou, s’il n’y en a aucun, le premier qui contient du btrfs). Les volumes logiques répartis sur plusieurs volumes physiques, RAID, thin, cache et les instantanés ne sont pas montés.</td></tr>
-  <tr><td>TriFS-24</td><td>pris en charge</td></tr>
 </table>
 <p>Nécessite macOS 15.6 ou ultérieur.</p>
 
@@ -156,7 +152,7 @@ renommez-le. Éjectez-le dans le Finder quand vous avez fini.</p>
 
 <h3>J’ai branché mon disque et rien n’apparaît.</h3>
 <ul>
-  <li>Vérifiez que les deux extensions sont activées (Premiers pas, étape 2).</li>
+  <li>Vérifiez que l’extension est activée (Premiers pas, étape 2).</li>
   <li>Le disque utilise peut-être un format que TuxKit n’ouvre pas : volumes
   chiffrés (LUKS, chiffrement ext4), XFS, ZFS, LVM au-delà des volumes logiques
   simples (voir Ce qui fonctionne)… La fenêtre de TuxKit liste toutes les
@@ -191,8 +187,8 @@ disque. Débrancher sans éjecter peut laisser des écritures inachevées.</p>
 <a href="index.html">politique de confidentialité</a>.</p>
 
 <h3>Comment arrêter d’utiliser TuxKit ?</h3>
-<p>Désactivez les deux extensions dans Réglages Système (Premiers pas,
-étape 2), ou supprimez l’application : ses extensions partent avec elle.</p>
+<p>Désactivez l’extension dans Réglages Système (Premiers pas,
+étape 2), ou supprimez l’application : ce qu’elle a installé part avec elle.</p>
 </div>
 </body>
 </html>
